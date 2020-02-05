@@ -1,0 +1,22 @@
+version: '3'
+services:
+  web:
+    image: node${NODEJS}expressjs
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+      - NODE_VERSION=${NODEJS}
+      - HTTP_PORT=${HTTP_CONTAINER}
+      - HTTPS_PORT=${HTTPS_CONTAINER}
+      - KARMA_PORT=${KARMA_CONTAINER}
+    container_name: ${CONTAINER_NAME}
+    ports:
+      - "${HTTP_LOCAL}:${HTTP_CONTAINER}"
+      - "${HTTPS_LOCAL}:${HTTPS_CONTAINER}"
+      - "${KARMA_LOCAL}:${KARMA_CONTAINER}"
+    volumes:
+      - ./:/app
+      - /usr/src/app/node_modules
+    tty: true
