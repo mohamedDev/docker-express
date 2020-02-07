@@ -1,0 +1,28 @@
+{
+  "name": "socle-expressjs",
+  "version": "1.0.0",
+  "description": "socle de développement nodejs framwork expressjs with typescript",
+  "main": "server.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mohamedDev/docker-express.git"
+  },
+  "author": "Mohamed BOUAZIZ",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mohamedDev/docker-express/issues"
+  },
+  "homepage": "https://github.com/mohamedDev/docker-express#readme",
+  "scripts": {
+    "dev": "concurrently -k -n \"Typescript,Node\" -p \"[{name}]\" -c \"blue,green\" \"tsc --watch\" \"nodemon\"",
+    "start": "tsc && node dist/index.js"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/express": "^4.17.2",
+    "@types/node": "^13.7.0",
+    "concurrently": "^5.1.0",
+    "nodemon": "^2.0.2",
+    "typescript": "^3.7.5"
+  }
+}
