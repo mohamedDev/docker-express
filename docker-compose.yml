@@ -10,36 +10,52 @@ services:
         - NODE_VERSION=${NODEJS}
         - HTTP_PORT=${HTTP_CONTAINER}
         - HTTPS_PORT=${HTTPS_CONTAINER}
-        - KARMA_PORT=${KARMA_CONTAINER}
-    container_name: ${CONTAINER_NAME}
+    container_name: ${APP_CONTAINER_NAME}
     ports:
       - "${HTTP_LOCAL}:${HTTP_CONTAINER}"
       - "${HTTPS_LOCAL}:${HTTPS_CONTAINER}"
-      - "${KARMA_LOCAL}:${KARMA_CONTAINER}"
     volumes:
       - ./:/app
       - /usr/src/app/node_modules
     depends_on:
       - mongo
+    networks:
+      meanstack_net:
+        ipv4_address: 172.22.1.2
     tty: true
 
   mongo-express:
     image: mongo-express
+    restart: always
+    container_name: ${DB_CONTAINER_NAME}
     ports:
-      - 8081:8081
+      - "${MONGO_EXPRESS_LOCAL}:${MONGO_EXPRESS_CONTAINER}"
     environment:
-      ME_CONFIG_BASICAUTH_USERNAME: med
-      ME_CONFIG_BASICAUTH_PASSWORD: mongomed
-      ME_CONFIG_MONGODB_PORT: 27017
-#      ME_CONFIG_MONGODB_ADMINUSERNAME: root
-#      ME_CONFIG_MONGODB_ADMINPASSWORD: mongomed
-    links:
-      - mongo
+      ME_CONFIG_BASICAUTH_USERNAME: ${MONGO_EXPRESS_USER}
+      ME_CONFIG_BASICAUTH_PASSWORD: ${MONGO_EXPRESS_PASSWORD}
+      ME_CONFIG_MONGODB_PORT: ${MONGODB_LOCAL}
+      # ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      # ME_CONFIG_MONGODB_ADMINPASSWORD: mongomed
+    networks:
+      meanstack_net:
+        ipv4_address: 172.22.1.3
 
   mongo:
     image: mongo
-#    environment:
-#      MONGO_INITDB_ROOT_USERNAME: root
-#      MONGO_INITDB_ROOT_PASSWORD: mongomed
+    restart: always
+    # environment:
+    # MONGO_INITDB_ROOT_USERNAME: root
+    # MONGO_INITDB_ROOT_PASSWORD: mongomed
+    container_name: ${DBVIEWER_CONTAINER_NAME}
     ports:
-      - "27017:27017"
+      - "${MONGODB_LOCAL}:${MONGODB_CONTAINER}"
+    networks:
+      meanstack_net:
+        ipv4_address: 172.22.1.4
+
+networks:
+  meanstack_net:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.22.0.0/16
