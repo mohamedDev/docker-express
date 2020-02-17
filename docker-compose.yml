@@ -21,7 +21,7 @@ services:
       - mongo
     networks:
       meanstack_net:
-        ipv4_address: 172.22.1.2
+        ipv4_address: ${APP_IP}
     tty: true
 
   mongo-express:
@@ -38,7 +38,7 @@ services:
       # ME_CONFIG_MONGODB_ADMINPASSWORD: mongomed
     networks:
       meanstack_net:
-        ipv4_address: 172.22.1.3
+        ipv4_address: ${DBVIEWER_IP}
 
   mongo:
     image: mongo
@@ -51,11 +51,11 @@ services:
       - "${MONGODB_LOCAL}:${MONGODB_CONTAINER}"
     networks:
       meanstack_net:
-        ipv4_address: 172.22.1.4
+        ipv4_address: ${DB_IP}
 
 networks:
   meanstack_net:
     ipam:
       driver: default
       config:
-        - subnet: 172.22.0.0/16
+        - subnet: ${SUBNET}

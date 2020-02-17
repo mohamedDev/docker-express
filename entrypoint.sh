@@ -2,9 +2,9 @@
 
 case $1 in
 	create-env-dev)
-		echo "####################################################"
+		echo "############################################################################"
         echo "we are going to create docker container for developper envirements expressjs"
-        echo "####################################################"
+        echo "############################################################################"
 #        if [ -f "./.env" ]
 #        then
 #            echo ".env found."
@@ -14,10 +14,10 @@ case $1 in
         cp ./infrastructure/env_dev/* ./ && cp ./infrastructure/env_dev/.env ./ && docker-compose up -d --build
 		;;
 	start)
-        echo "####################################################"
+        echo "############################################################################"
         echo "we are going to start dev server on docker container"
-        echo "####################################################"
-		winpty docker exec -it $(grep CONTAINER_NAME .env | cut -d '=' -f2) ng serve --poll 1000 --host 0.0.0.0
+        echo "############################################################################"
+		winpty docker exec -it $(grep APP_CONTAINER_NAME .env | cut -d '=' -f2) npm run dev
 		break
 		;;
 esac
