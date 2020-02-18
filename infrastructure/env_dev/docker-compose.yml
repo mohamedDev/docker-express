@@ -27,7 +27,7 @@ services:
   mongo-express:
     image: mongo-express
     restart: always
-    container_name: ${PROJET_NAME}__${DB_CONTAINER_NAME}
+    container_name: ${PROJET_NAME}__${DBVIEWER_CONTAINER_NAME}
     ports:
       - "${MONGO_EXPRESS_LOCAL}:${MONGO_EXPRESS_CONTAINER}"
     environment:
@@ -46,7 +46,7 @@ services:
     # environment:
     # MONGO_INITDB_ROOT_USERNAME: root
     # MONGO_INITDB_ROOT_PASSWORD: mongomed
-    container_name: ${PROJET_NAME}__${DBVIEWER_CONTAINER_NAME}
+    container_name: ${PROJET_NAME}__${DB_CONTAINER_NAME}
     ports:
       - "${MONGODB_LOCAL}:${MONGODB_CONTAINER}"
     volumes:
