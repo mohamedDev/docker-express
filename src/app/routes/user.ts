@@ -1,22 +1,22 @@
 import express from "express";
+import { Router } from "express";
 
-const userRoutes = express.Router();
-const userModel = require('../models/user');
+import userModel from "../models/user";
+
+const userRoutes: Router = Router();
 
 // get all users
 userRoutes.use("/", (req, res, next) => {
-
-  userModel.find().then(
-    (user: any) => {
+  userModel
+    .find()
+    .then((user: any) => {
       res.status(200).json(user);
-    }
-  ).catch(
-    (error: any) => {
+    })
+    .catch((error: any) => {
       res.status(400).json({
         error: error
       });
-    }
-    );
-})
+    });
+});
 
-module.exports = userRoutes;
+export default userRoutes;
