@@ -1,25 +1,22 @@
-import express = require("express");
-const router = express.Router();
+import express from "express";
 
-const User = require("../models/user");
-
-// get user by ID
-router.get("/:id", (req, res, next) => {
-  User.findOne({
-    _id: req.params.id
-  })
-    .then(user => {
-      console.log(user);
-      res.status(200).json(user);
-    })
-    .catch(error => res.status(404).json({ error: error }));
-});
+const userRoutes = express.Router();
+const userModel = require('../models/user');
 
 // get all users
-router.use("/", (req, res, next) => {
-  User.find()
-    .then(users => res.status(200).json(users))
-    .catch(error => res.status(400).json({ error }));
-});
+userRoutes.use("/", (req, res, next) => {
 
-module.exports = router;
+  userModel.find().then(
+    (user: any) => {
+      res.status(200).json(user);
+    }
+  ).catch(
+    (error: any) => {
+      res.status(400).json({
+        error: error
+      });
+    }
+    );
+})
+
+module.exports = userRoutes;

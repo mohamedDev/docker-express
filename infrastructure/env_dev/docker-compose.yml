@@ -49,8 +49,8 @@ services:
     container_name: ${PROJET_NAME}__${DB_CONTAINER_NAME}
     ports:
       - "${MONGODB_LOCAL}:${MONGODB_CONTAINER}"
-    volumes:
-      - ./infrastructure/mongodata:/data/db
+#    volumes:
+#      - ./infrastructure/mongodata:/data/db
     networks:
       meanstack_net:
         ipv4_address: ${DB_IP}

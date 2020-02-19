@@ -1,19 +1,39 @@
-import express = require("express");
-const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
+// app vendors
+import express from "express";
+import bodyParser from "body-parser";
+import userRoutes from "./routes/user";
+import { Database } from "./database";
 
-const db = require('./db');
-const userRoutes = require('./routes/user');
-const app = express();
+class Main {
 
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
-  next();
-});
+  constructor() {
+    let database = new Database();
+    database.connect();
+  }
 
-app.use(bodyParser.json());
-app.use('/api/users', userRoutes);
+  initApp() {
+    let app = express();
+
+    app.use((req, res, next) => {
+      res.setHeader('Access-Control-Allow-Origin', '*');
+      res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
+      res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+      next();
+    });
+    app.use(bodyParser.json());
+    app = express();
+    return app;
+  }
+
+}
+
+let main = new Main();
+
+const app = main.initApp();
+
+/*
+* users routes
+*/
+app.use("/api/users", userRoutes);
 
 module.exports = app;
