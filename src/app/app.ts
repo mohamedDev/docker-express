@@ -1,19 +1,25 @@
 // app vendors
+// https://github.com/madeindjs/locadb/blob/master/lib/app.ts
 import express from "express";
-import bodyParser from "body-parser";
-import userRoutes from "./routes/user";
-import Database from "./database";
+import * as bodyParser from "body-parser";
 
-class Main {
+import Database from "./database";
+import appRoutes from "./app.route";
+
+class App {
+
+  public app: express.Application;
+  public routes: appRoutes;
+
   constructor() {
+    this.app = express();
+    this.config();
+    this.routes = new appRoutes(this.app);
     let database = new Database();
-    database.connect();
   }
 
-  initApp() {
-    let app = express();
-
-    app.use((req, res, next) => {
+  private config(): void {
+    this.app.use((req, res, next) => {
       res.setHeader("Access-Control-Allow-Origin", "*");
       res.setHeader(
         "Access-Control-Allow-Headers",
@@ -25,19 +31,13 @@ class Main {
       );
       next();
     });
-    app.use(bodyParser.json());
-    app = express();
-    return app;
+
+    // support application/json type post data
+    this.app.use(bodyParser.json());
+
+    //support application/x-www-form-urlencoded post data
+    this.app.use(bodyParser.urlencoded({ extended: false }));
   }
 }
 
-let main = new Main();
-
-const app = main.initApp();
-
-/**
- * API routes.
- */
-app.use("/api/users", userRoutes);
-
-export default app;
+export default new App().app;
