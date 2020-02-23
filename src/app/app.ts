@@ -7,7 +7,6 @@ import Database from "./database";
 import appRoutes from "./app.route";
 
 class App {
-
   public app: express.Application;
   public routes: appRoutes;
 

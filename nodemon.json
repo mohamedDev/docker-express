@@ -1,8 +1,6 @@
 {
-  "watch": [
-    "**/*"
-  ],
-  "exec": "node dist/index.js",
+  "watch": ["**/*"],
+  "exec": "node dist/index.js & node docConfig.js",
   "ext": "js, json, ts",
   "legacyWatch": true
 }
