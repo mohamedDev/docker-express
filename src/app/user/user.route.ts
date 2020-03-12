@@ -1,5 +1,4 @@
 import * as express from "express";
-
 import { UsersController } from "./user.controller";
 
 let userRoutes = express.Router();
@@ -32,6 +31,8 @@ userRoutes
   .get("/", usersController.index)
   .get("/:id", usersController.show)
   .post("/", usersController.create)
+  .post("/photo", usersController.uploadPhoto)
+
   .put("/:id", usersController.update)
   .delete("/:id", usersController.delete)
 

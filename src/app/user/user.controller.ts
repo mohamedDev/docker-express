@@ -1,6 +1,8 @@
 import User from './user.model';
 import { Request, Response } from 'express';
 
+import { UploadFile } from '../uploadFile';
+
 export class UsersController {
 
   public create(req: Request, res: Response) {
@@ -41,12 +43,19 @@ export class UsersController {
     });
   }
 
-  public delete(req: Request, res: Response) {
-    User.remove({ _id: req.params.id }, (err: Error, User) => {
+  public delete(req: Request, res: Response): void {
+    User.remove({ _id: req.params.id }, (err: Error) => {
       if (err) {
         res.send(err);
       }
       res.json({ message: 'Successfully deleted User!' });
     });
+  }
+
+  public uploadPhoto(req: Request, res: Response) {
+
+    let upload = new UploadFile('file', 'image/png', 'upload-from-app', 'test.png', 520);
+    upload.savefiles(req, res);
+
   }
 }

@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 
 export default class Database {
   private urlCxn: string = "mongodb://mongo:27017/med";
-  private optionCnx: {} = { useNewUrlParser: true, useUnifiedTopology: true };
+  private optionCnx: {} = { useNewUrlParser: true, useUnifiedTopology: true, 'useCreateIndex': true };
 
   constructor() {
     mongoose
